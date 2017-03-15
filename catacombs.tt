@@ -1,0 +1,26 @@
+#act {^Marious, the Great War Wizard telepaths you, '%1'.$} {
+	#if {$marious_next == "room"} {
+		$var combs_romb %1;
+		#unvar marious_next;
+		#return;
+	};
+
+	#if {$marious_next == "zone"} {
+		#var combs_zone %1;
+		#unvar marious_next;
+		#return;
+
+	#if {"%1" == "Let's see here... I see an entrance at..."} {
+		#var marious_next room;
+		#return;
+	};
+
+	#if {"%1" == "in the general vicinity of"} {
+		#var marious_next zone;
+		#return;
+	}
+}
+
+#alias {combs} {
+	#showme {The combs are in $combs_zone at $combs_room.};
+}

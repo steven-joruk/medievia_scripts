@@ -1,0 +1,31 @@
+#substitute {; it barely clings to life.$} {; it barely clings to life. (1%-9%)}
+#substitute {; it has some big nasty wounds.$} {; it has some big nasty wounds. (40%-49%)}
+#substitute {; it has some gruesome wounds.$} {; it has some gruesome wounds. (30%-39%)}
+#substitute {; it has some large, gaping wounds.$} {; it has some large, gaping wounds. (20%-29%)}
+#substitute {; it has some minor wounds.$} {; it has some minor wounds. (80%-89%)}
+#substitute {; it has some nasty looking wounds.$} {; it has some nasty looking wounds. (60%-69%)}
+#substitute {; it has quite a few serious wounds.$} {; it has quite a few serious wounds. (50%-59%)}
+#substitute {; it has some serious wounds.$} {; it has some serious wounds. (70%-79%)}
+#substitute {; it looks pretty awful.$} {; it looks pretty awful. (10%-19%)}
+#substitute {barely clings to life.$} {barely clings to life. (1%-7%)}
+#substitute {grimaces in pain.$} {grimaces in pain. (48%-54%)}
+#substitute {grimaces with pain.$} {grimaces with pain. (48%-54%)}
+#substitute {has a nasty looking welt on the forehead.$} {has a nasty looking welt on the forehead. (83%-89%)}
+#substitute {has a few scratches.$} {has a few scratches. (90%-99%)}
+#substitute {has many grievous wounds.$} {has many grievous wounds. (22%-28%)}
+#substitute {has quite a few wounds.$} {has quite a few wounds. (55%-61%)}
+#substitute {has some big nasty wounds and scratches.$} {has some big nasty wounds and scratches. (41%-47%)}
+#substitute {has some large, gaping wounds.$} {has some large, gaping wounds. (36%-40%)}
+#substitute {has some minor wounds.$} {has some minor wounds. (69%-75%)}
+#substitute {has some nasty wounds and bleeding cuts.$} {has some nasty wounds and bleeding cuts. (41%-47%)}
+#substitute {has some small wounds and bruises.$} {has some small wounds and bruises. (76%-82%)}
+#substitute {is covered with blood from oozing wounds.$} {is covered with blood from oozing wounds. (15%-21%)}
+#substitute {is in excellent condition.$} {is in excellent condition. (100%)}
+#substitute {is vomiting blood.$} {is vomiting blood. (15%-21%)}
+#substitute {looks pretty awful.$} {looks pretty awful. (29%-35%)}
+#substitute {pales visibly as death nears.$} {pales visibly as death nears. (8%-14%)}
+#substitute {screams in agony.$} {screams in agony. (22%-28%)}
+#substitute {swimming in excellent condition.$} {swimming in excellent condition. (100%)}
+#substitute {tail in excellent condition.$} {tail in excellent condition. (100%)}
+#substitute {tails in excellent condition.$} {tails in excellent condition. (100%)}
+#substitute {winces in pain.$} {winces in pain. (62%-68%)}

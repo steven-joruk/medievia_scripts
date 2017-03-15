@@ -1,0 +1,56 @@
+#act {^Is this %1 the shape of a player (y/n)?$} {
+	#if {$use_patched_fonts} {
+		y;
+	} {
+		n;
+	}
+}
+
+#alias {connect} {
+	#if {"%1" == ""} {
+		show_accounts;
+		#return;
+	};
+	#var i 1;
+	#foreach {$password[]} {key} {
+		#if {$i == %1} {
+			#ses {$key} {$server} ${port};
+			#break;
+		};
+		#math i {$i + 1};
+	}
+}
+
+#alias {con} {connect %1}
+
+#alias {start_auto_connect} {
+	#ticker {auto_connect_ticker} {connect} {5};
+}
+
+#alias {stop_auto_connect} {
+	#unticker {auto_connect_ticker};
+}
+
+#event {SESSION CONNECTED} {
+	stop_auto_connect;
+	%0;
+	$password[%0];
+	#split 0 2;
+}
+
+#event {SESSION DISCONNECTED} {
+	start_auto_connect;
+}
+
+#alias {show_accounts} {
+	#showme {\nYou have the following accounts configured, use 'con[nect] <number>':};
+	#var i 1;
+	#foreach {$password[]} {name} {
+		#showme {    $i - $name};
+		#math i {$i + 1};
+	}
+}
+
+#delay {1} {show_accounts}
+
+#split 0 2;

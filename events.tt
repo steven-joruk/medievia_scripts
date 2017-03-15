@@ -1,0 +1,81 @@
+#var tick_length 31
+
+#event {SECOND} {
+	anti_whisk;
+	auto_report_bats;
+	update_status_bar;
+}
+
+#event {HOUR} {
+	hourglass;
+	time;
+}
+
+#event {SEND OUTPUT} {
+	#var last_sent_epoch @get_epoch{};
+}
+
+#alias {anti_whisk} {
+	#if {@get_epoch{} - $last_sent_epoch > 120} {
+		$anti_whisk_command;
+	};
+}
+
+#alias {alarm} {
+	#delay {@math{%1 * 60} {
+			warn %2;
+		}
+	};
+}
+
+#alias {tick_event} {
+	#SHOWME {${theme.good}TICK};
+	#math next_tick_epoch {@get_epoch{} + $tick_length};
+	#tick tick {
+		#showme {${theme.good}TICK};
+		#math next_tick_epoch {@get_epoch{} + $tick_length}
+	} {$tick_length};
+}
+
+#alias {update_status_bar_tick} {
+	#if {$next_tick_epoch == 0} {
+		#var sb_next_tick {Tick: ${theme.bad}Unknown};
+		#return;
+	};
+
+	#math tmp {$next_tick_epoch - @get_epoch{}};
+
+	#if {$tmp > 15} {
+		#var sb_next_tick {Tick: ${theme.good}$tmp};
+	} {
+		#if {$tmp > 5} {
+			#var sb_next_tick {Tick: ${theme.medium}$tmp};
+		} {
+			#var sb_next_tick {Tick: ${theme.bad}$tmp};
+		}
+	}
+}
+
+#alias {update_status_bar} {
+	update_status_bar_tick;
+	#showme {$sb_next_tick} {1};
+	#unvar tmp;
+}
+
+#nop {
+	TODO:
+		Only enable tick capturers when we don't know when the next tick
+		will be.
+}
+
+#action {^Your endurance returns to normal.$} {
+	tick_event;
+}
+
+#action {^Glancing into the nighttime sky, you see a waning quarter moon.$} {
+	tick_event;
+}
+
+#action {^A spectral image of a raven emerges from your body, flying away.#} {
+	tick_event;
+}

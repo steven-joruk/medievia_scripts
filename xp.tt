@@ -1,0 +1,73 @@
+#var five_minutes 300
+#var ten_minutes 600
+#var fifteen_minutes 900
+#var thirty_minutes 1800
+#var sixty_minutes 3600
+
+#alias {append_xp_log} {
+	#if {%1 != 0} {
+		#var xp_log[@get_epoch{}] %1;
+	};
+}
+
+#act {^You receive %1 experience points from the battle of %2 total.$} {
+	append_xp_log %1;
+}
+
+#act {^You are awarded %1 experience points for the battle.$} {
+	append_xp_log %1;
+}
+
+#act {^YOU LOST %1 EXPERIENCE!$} {
+	append_xp_log @negative{%1};
+}
+
+#alias {xp} {
+	#var five_minutes_xp 0;
+	#var ten_minutes_xp 0;
+	#var fifteen_minutes_xp 0;
+	#var thirty_minutes_xp 0;
+	#var sixty_minutes_xp 0;
+
+	#forall {$xp_log[]} {
+		#if {&0 < @get_epoch{} - $sixty_minutes} {
+			#unvar xp_log[&0];
+			#continue;
+		};
+
+		#if {&0 >= @get_epoch{} - $five_minutes} {
+			#math five_minutes_xp {$five_minutes_xp + $xp_log[&0]};
+		} {
+			#if {&0 >= @get_epoch{} - $ten_minutes} {
+				#math ten_minutes_xp {$ten_minutes_xp + $xp_log[&0]};
+			} {
+				#if {&0 >= @get_epoch{} - $fifteen_minutes} {
+					#math fifteen_minutes_xp {$fifteen_minutes_xp + $xp_log[&0]};
+				} {
+					#if {&0 >= @get_epoch{} - $thirty_minutes} {
+						#math thirty_minutes_xp {$thirty_minutes_xp + $xp_log[&0]};
+					} {
+						#math sixty_minutes_xp {$sixty_minutes_xp + $xp_log[&0]};
+					}
+				}
+			}
+		}
+	};
+
+	#math ten_minutes_xp {$ten_minutes_xp + $five_minutes_xp};
+	#math fifteen_minutes_xp {$fifteen_minutes_xp + $ten_minutes_xp};
+	#math thirty_minutes_xp {$thirty_minutes_xp + $fifteen_minutes_xp};
+	#math sixty_minutes_xp {$sixty_minutes_xp + $thirty_minutes_xp};
+
+	#math five_ph {$five_minutes_xp / $five_minutes * $sixty_minutes};
+	#math ten_ph {$ten_minutes_xp / $ten_minutes * $sixty_minutes};
+	#math fifteen_ph {$fifteen_minutes_xp / $fifteen_minutes * $sixty_minutes};
+	#math thirty_ph {$thirty_minutes_xp / $thirty_minutes * $sixty_minutes};
+
+	#showme {XP Earned:};
+	#showme {    Last 5 minutes: @prettify{$five_minutes_xp}, @prettify{$five_ph}/hour};
+	#showme {    Last 10 minutes: @prettify{$ten_minutes_xp}, @prettify{$ten_ph}/hour};
+	#showme {    Last 15 minutes: @prettify{$fifteen_minutes_xp}, @prettify{$fifteen_ph}/hour};
+	#showme {    Last 30 minutes: @prettify{$thirty_minutes_xp}, @prettify{$thirty_ph}/hour};
+	#showme {    Last 60 minutes: @prettify{$sixty_minutes_xp}};
+}

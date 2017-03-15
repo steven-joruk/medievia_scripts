@@ -1,0 +1,25 @@
+#nop {
+	TODO: Handle 2+ matches in the same hourglass output
+	      Double damage
+	      CPK xp?
+	      NPK xp?
+}
+
+#act {^In %1 hours EXPERIENCE *= %2 for %3 hours starts %4 %5 %6 %7:%8:%9 %10} {
+	#var hourglass_xp_epoch @date_to_epoch{{%6-%5-%10 %7:%8:%9}};
+}
+
+#act {^In %1 hours DAMAGE *= %2 for %3 hours starts %4 %5 %6 %7:%8:%9 %10} {
+	#var hourglass_damage_epoch @date_to_epoch{{%6-%5-%10 %7:%8:%9}};
+}
+
+#act {^In %1 hours NPK ZONE XP *= %2 for %3 hours starts %4 %5 %6 %7:%8:%9 %10} {
+	#var hourglass_npk_xp_epoch @date_to_epoch{{%6-%5-%10 %7:%8:%9}};
+}
+
+#function {get_seconds_until_hourglass} {
+	#math result {$hourglass_xp_epoch - @get_server_epoch{}};
+	#if {$result < 0} {
+		#math result {$evening_bats_epoch - @get_server_epoch{}};
+	};
+}

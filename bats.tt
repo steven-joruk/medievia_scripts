@@ -1,0 +1,40 @@
+#action {^Gets Light:      %w %+ %d %d:%d:%d %d Fog Starts$} {
+	#var morning_bats_epoch @date_to_epoch{{%3-%2-%7 %4:%5}};
+}
+
+#action {^Sun Sets:        %w %+ %d %d:%d:%d %d Fog Starts$} {
+	#var evening_bats_epoch @date_to_epoch{{%3-%2-%7 %4:%5}};
+}
+
+#function {get_seconds_until_bats} {
+	#math result {$morning_bats_epoch - @get_server_epoch{}};
+	#if {$result < 0} {
+		#math result {$evening_bats_epoch - @get_server_epoch{}};
+	};
+}
+
+#alias {auto_report_bats} {
+	#if {$morning_bats_epoch == ""} {
+		#return;
+	};
+	#switch {@get_seconds_until_bats{}} {
+		#case 3600 {#var message in 1 hour};
+		#case 1800 {#var message in 30 mins};
+		#case 300 {#var message in 5 mins};
+		#case 60 {#var message in 1 min};
+		#case 0 {#var message now!;#delay {5} {time}};
+		#default {#return};
+	};
+
+	clan Fae bats with increased XP arrive $message;
+}
+
+#alias {report_bats} {
+	#if {$morning_bats_epoch == ""} {
+		time;
+		#delay {1} {report_bats};
+		#return;
+	};
+
+	#showme {Bats arrive in @seconds_to_duration{@get_seconds_until_bats{}}};
+}

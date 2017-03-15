@@ -1,0 +1,81 @@
+#var scraping 0
+
+#var {catalog_filter} {
+	{0}{cleric good}
+	{1}{cleric neutral}
+	{2}{cleric evil}
+	{3}{mage good}
+	{4}{mage neutral}
+	{5}{mage evil}
+	{6}{thief good}
+	{7}{thief neutral}
+	{8}{thief evil}
+	{9}{warrior good}
+	{10}{warrior neutral}
+	{11}{warrior evil}
+}
+
+#alias {scrape_catalog} {
+	#var filter_index 0;
+	#var scraping 1;
+	continue_scraping_catalog;
+}
+
+#alias {continue_scraping_catalog} {
+	#if {"$catalog_filter[$filter_index]" != ""} {
+		catalog * $catalog_filter[$filter_index];
+		#math {filter_index} {$filter_index + 1};
+	} {
+		#var scraping 0;
+		#system {sort -u items.log -o items.log};
+	}
+}
+
+#alias {log_item} {
+	#line log items.log {${item.name} - Lev(${item.level}) Loc(${item.location}) ${item.other}};
+	#unvar item;
+}
+
+#action {^Output has been limited to the first 200 matches.$} {
+	#if {$scraping == 1} {
+		#line log items.err {The filters need to be made more specific, overflow during "$catalog_filter[$filer_index]"};
+	};
+}
+
+#action {^Item:   %1 [%2 coins]$} {
+	#if {"%1" != ""} {
+		#var item.name %1;
+	};
+}
+
+#action {^Item: X %1 [%2 coins]$} {
+	#var item.name %1;
+}
+
+#action {^Lev(%1) Loc(%2) %3 Cond(%4)$} {
+	#var item.level %1;
+	#var item.location %2;
+	#var item.other {%3};
+	log_item;
+}
+
+#action {^AUCTION: %1 in slot %2, minimum bid: %3, auctioneer: %4.$} {
+	#var item.name %1;
+}
+
+#action {^         Lev(%1) Loc(%2) %3 Cond(%4)$} {
+	#var item.level %1;
+	#var item.location %2;
+	#var item.other %3;
+	log_item;
+}
+
+#event {RECEIVED PROMPT} {
+	#if {$scraping} {
+		#if {"%1" == "*** Press return or Q to abort *** "} {
+			#delay {$catalog_scraper_delay} {#cr};
+		} {
+			continue_scraping_catalog;
+		}
+	};
+}

@@ -1,0 +1,79 @@
+#config {color patch} on
+
+#read config.tt
+#read util.tt
+
+#read auto-connect.tt
+#read bats.tt
+#read combat.tt
+#read faeorb.tt
+#read health.tt
+#read hourglass.tt
+#read damage.tt
+#read scraper.tt
+#read xp.tt
+
+#read events.tt
+
+#alias reload {
+	#kill;
+	#read tts.tt;
+}
+
+#act {] <%1/%2hp %3/%4m %5mv %6br> %7} {
+	#var hp %1;
+	#var hp_max %2;
+	#math hp_p {$hp / $hp_max * 100.0};
+	#var mana %3;
+	#var mana_max %4;
+	#math mana_p {$mana / $mana_max * 100.0};
+	#var move %5;
+	#var breath %6;
+	#var pk_type %7;
+}
+
+#alias {lc} {
+	#if {%1} {
+		examine %1.corpse
+	} {
+		examine corpse
+	}
+}
+
+#alias {gac} {
+	#if {%1} {
+		get all %1.corpse
+	} {
+		get all corpse
+	}
+}
+
+#alias {ln} {use helm north}
+#alias {le} {use helm east}
+#alias {ls} {use helm south}
+#alias {lw} {use helm west}
+#alias {lu} {use helm up}
+#alias {ld} {use helm down}
+
+#alias {tick_detected} {
+	#tick tick {tick_event} {45};
+}
+
+#alias {report} {
+	#showme {${theme.base}\[${theme.good}TTS${theme.base}\] %0};
+}
+
+#alias {warn} {
+	report ${theme.warning}%0;
+}
+
+#alias {tts_help} {
+	#showme {All commands are preceeded with 'tts' and can be abbreviated.};
+}
+
+#alias {tts} {
+	#if {"%1" == ""} {
+		tts_help;
+		#return;
+	};
+}

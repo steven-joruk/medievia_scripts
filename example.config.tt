@@ -1,0 +1,17 @@
+#var use_patched_fonts 0
+#var server medievia.com
+#var port 4000
+#var catalog_scraper_delay 2
+#var anti_whisk_command stats
+
+#var password[vryce] 2godly4u
+#var password[somestorage] lovelypass123
+
+#var {theme} {
+	{base}{<179>}
+	{spell_name}{<419>}
+	{good} {<129>}
+	{medium} {<139>}
+	{warning} {<139>}
+	{bad} {<119>}
+}

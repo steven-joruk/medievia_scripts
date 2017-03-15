@@ -1,0 +1,25 @@
+#gag {^You dodge %0 attack.$}
+#gag {^You parry %0 attack.$}
+#gag {%1 misses you.$}
+#gag {^Your %0 misses %1.$}
+#gag {%1 dodges your attack.$}
+
+#alias {sr} {cast shield room}
+#alias {fog} {cast faerie fog}
+
+#alias {h} {cast heal %1}
+#alias {cc} {cast cure critic %1}
+#alias {cb} {cast cure blind %1}
+
+#alias {p} {cast plague %1}
+#alias {dis} {cast dispel magic %1}
+#alias {ff} {cast faerie fire %1}
+
+#alias {tr} {cast tremor}
+#alias {ha} {cast harm %1}
+#alias {sw} {cast shockwave %1}
+#alias {aci} {cast acid blast}
+
+#act {^The white aura around your body fades.$} {
+	tick_event;
+}

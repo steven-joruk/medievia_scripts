@@ -1,0 +1,83 @@
+#var solar_eclipse_epoch {}
+#var new_moon_epoch {}
+#var faeorb_report_pending {}
+
+#function {get_days_until_solar_eclipse} {
+	#return @get_days_until_server_epoch{$solar_eclipse_epoch};
+}
+
+#function {get_days_until_new_moon} {
+	#var result @get_days_until_server_epoch{$new_moon_epoch};
+}
+
+#alias {update_faeorb_spells} {
+	#var {faeorb_spells} {
+		{double_xp} {
+			{name} {Double XP}
+			{power} {@math{2 + @get_days_until_solar_eclipse{}}}
+			{duration} {@math{2 + @get_days_until_new_moon{}}}
+			{frequency} {2}
+			{cost} {1000000}
+		}
+
+		{locate_serpents} {
+			{name} {Locate Serpents}
+			{power} {@math{1 + @get_days_until_solar_eclipse{}}}
+			{duration} {@math{2 + @get_days_until_new_moon{}}}
+			{frequency} {79}
+		}
+
+		{create_rainstorm} {
+			{name} {Create Rainstorm}
+			{power} {@math{3 + @get_days_until_solar_eclipse{}}}
+			{duration} {@math{1 + @get_days_until_new_moon{}}}
+			{frequency} {63}
+		}
+
+		{remove_storms} {
+			{name} {Remove Storms}
+			{power} {@math{3 + @get_days_until_solar_eclipse{}}}
+			{duration} {@math{6 + @get_days_until_new_moon{}}}
+			{frequency} {90}
+			{cost} {100000}
+		}
+
+		{intersection_farsight} {
+			{name} {Intersection Farsight}
+			{power} {5}
+			{duration} {5}
+			{frequency} {5}
+			{cost} {25000}
+		}
+	};
+
+	#var faeorb_spells.locate_serpents.cost {@math{$faeorb_spells[locate_serpents][power] * $faeorb_spells[locate_serpents][duration] * 1000}};
+	#var faeorb_spells.create_rainstorm.cost {@math{$faeorb_spells[create_rainstorm][power] * $faeorb_spells[create_rainstorm][duration] * 1000}};
+}
+
+#alias {faeorb} {
+	#if {@get_server_epoch{} == 0 || @get_days_until_solar_eclipse{} < 0 || @get_days_until_new_moon{} < 0} {
+		time;
+		warn The time command needs to run before the spell values can be calculated, it's pending.;
+		#var faeorb_report_pending 1;
+		#return;
+	};
+
+	update_faeorb_spells;
+
+	#foreach {$faeorb_spells[]} {spell} {
+		#showme {$faeorb_spells[$spell][name]: $faeorb_spells[$spell][power] $faeorb_spells[$spell][duration] $faeorb_spells[$spell][frequency] (Cost: @prettify{$faeorb_spells[$spell][cost]})};
+	};
+}
+
+#action {^Next New Moon:   %w %+ %d %d:%d:%d %d Fae Clams making Frae} {
+	#var new_moon_epoch @date_to_epoch{%3-%2-%7 %4:%5:%6};
+}
+
+#action {^Eclipse Start:   %w %+ %d %d:%d:%d %d Fae Clams making Stae} {
+	#var solar_eclipse_epoch @date_to_epoch{%3-%2-%7 %4:%5:%6};
+	#if {$faeorb_report_pending == 1} {
+		#delay 1 faeorb;
+		#var faeorb_report_pending 0;
+	};
+}

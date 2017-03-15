@@ -1,0 +1,26 @@
+#substitute {~%*barely touches%*!} {%0 (1-2)}
+#substitute {~%*scratches%*!} {%0 (3)}
+#substitute {~%*bruises%*!} {%0 (4)}
+#substitute {~%*hits%*!} {%0 (5)}
+#substitute {~%*injures%*!} {%0 (6-7)}
+#substitute {~%*wounds%*!} {%0 (8-9)}
+#substitute {~%*draws blood from%*!} {%0 (10-11)}
+#substitute {~%*smites%*!} {%0 (12-14)}
+#substitute {~%*massacres%*!} {%0 (15-20)}
+#substitute {~%*decimates%*!} {%0 (21-25)}
+#substitute {~%*You decimate%*!} {%0 (21-25)}
+#substitute {~%*You devastate%*!} {%0 (26-30)}
+#substitute {~%*devastates%*!} {%0 (26-30)}
+#substitute {~%*horribly maims%*!} {%0 (101-130)}
+#substitute {~%*maims%*!} {%0 (31-40)}
+#substitute {~%*mutilates%*!} {%0 (41-50)}
+#substitute {~%*pulverizes%*!} {%0 (51-60)}
+#substitute {~%*demolishes%*!} {%0 (61-70)}
+#substitute {~%*mangles %*!} {%0 (71-80)}
+#substitute {~%*obliterates%*!} {%0 (81-90)}
+#substitute {~%*annihilates%*!} {%0 (91-100)}
+#substitute {~%*visciously rends%*!} {%0 (131+)}
+#substitute {~%*dismembers%*!} {%0 (24%-30%)}
+#substitute {~%*eviscerates%*!} {%0 (31%-50%)}
+#substitute {~%*disembowels%*!} {%0 (51%-75%)}
+#substitute {~%*decapitates%*!} {%0 (76%-99%)}
